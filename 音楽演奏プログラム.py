@@ -30,7 +30,7 @@ print(len(Gakufu1),len(Tempo1))  #Gakufu1とTempo1の長さが一致している
 
 BPM = 73
 bar_line_second = (60/BPM)*4  # 1小節の秒数
-Defalt_Volume = 0.
+Defalt_Volume = 0.1
 
 frequencies_dict = {
     "BR": 0,  # 休符
@@ -60,7 +60,7 @@ frequencies_dict = {
 }
 
 # パラメータ設定
-sample_rate = 44100  # サンプルレート
+sample_rate = 88000  # サンプルレート
 phase = 0
 current_sound_index = 0
 played_frames = 0
@@ -85,8 +85,8 @@ def generate_square_wave(frequency, frames, phase, sample_rate):
     t = (np.arange(frames) + phase) / sample_rate
     # 方形波の生成
     #wave = Volume * np.sign(np.sin(2 * np.pi * frequency * t)) # 方形波
-    wave = Volume * np.abs(2 * (t * frequency - np.floor(t * frequency + 0.5))) - 1# 三角波
-    #wave = Volume * np.sin(2 * np.pi * frequency * t)# 正弦波
+    #wave = Volume * np.abs(2 * (t * frequency - np.floor(t * frequency + 0.5))) - 1# 三角波
+    wave = Volume * np.sin(2 * np.pi * frequency * t)# 正弦波
     #wave = Volume * (2 * (t * frequency - np.floor(t * frequency + 0.5)))# ノコギリ波
     return wave
 
@@ -97,32 +97,31 @@ def apply_fade(wave, fade_in_frames, fade_out_frames):
     wave[-fade_out_frames:] *= fade_out
     return wave    
 
+# すべての信号を生成
+signals = []
+fade_in_frames = int(sample_rate * 0.005)  # フェードインのフレーム数（0.01秒）
+fade_out_frames = int(sample_rate * 0.005)  # フェードアウトのフレーム数（0.01秒）
+
+for i in range(len(Gakufu1)):
+    frames = durations[i]
+    frequency = frequencies[i]
+    signal = generate_square_wave(frequency, frames, 0, sample_rate)
+    signal = apply_fade(signal, fade_in_frames, fade_out_frames)
+    signals.append(signal)
+
+# すべての信号を結合
+full_signal = np.concatenate(signals)
+
 def audio_callback(outdata, frames, time, status):
-    global phase, current_sound_index, played_frames
+    global played_frames
 
     if status:
         print(status, flush=True)
 
-    # 再生中の音の終了判定
-    current_duration_frames = durations[current_sound_index]
-    remaining_frames = current_duration_frames - played_frames
-
-    if remaining_frames <= 0:
-        # 次の音に切り替え
-        current_sound_index += 1
-        played_frames = 0
-        phase = 0
-        if current_sound_index >= len(Gakufu1):  # 全ての音を再生し終えたら停止
-            raise sd.CallbackStop
-        else:
-            remaining_frames = durations[current_sound_index]
-
     # 再生するフレーム数を決定
-    frames_to_play = min(frames, remaining_frames)
+    frames_to_play = min(frames, len(full_signal) - played_frames)
 
-    waveform = generate_square_wave(frequencies[current_sound_index], frames_to_play, phase, sample_rate)
-    outdata[:frames_to_play] = waveform.reshape(-1, 1)
-    phase += frames_to_play
+    outdata[:frames_to_play] = full_signal[played_frames:played_frames + frames_to_play].reshape(-1, 1)
 
     # バッファの残り部分をゼロ埋め
     if frames_to_play < frames:
@@ -132,14 +131,12 @@ def audio_callback(outdata, frames, time, status):
     played_frames += frames_to_play
 
 def play_square_wave():
-    global current_sound_index, played_frames, phase
-    current_sound_index = 0
+    global played_frames
     played_frames = 0
-    phase = 0
 
-    with sd.OutputStream(channels=1, callback=audio_callback, samplerate=sample_rate):
+    with sd.OutputStream(channels=2, callback=audio_callback, samplerate=sample_rate):
         print("音声再生中...")
-        total_duration = sum(durations) / sample_rate
+        total_duration = len(full_signal) / sample_rate
         sd.sleep(int(total_duration * 1000))  # 全体の再生が終わるまで待つ
     print("再生終了！")
 
