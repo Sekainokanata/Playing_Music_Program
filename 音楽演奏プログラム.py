@@ -34,7 +34,7 @@ frequencies_dict = {
     "D3": 146.83,  # レ
     "E3": 164.81,  # ミ
     "F3": 174.61,  # ファ
-    "F3♯": 185.00,  # ファ♯
+    "F3#": 185.00,  # ファ♯
     "G3": 196.00,  # ソ
     "A3": 220.00,  # ラ
     "B3♭": 233.08,  # シ♭
@@ -44,7 +44,7 @@ frequencies_dict = {
     "E4♭": 311.13,  # ミ♭
     "E4": 329.63,  # ミ
     "F4": 349.23,  # ファ
-    "F4♯": 369.99,  # ファ♯
+    "F4#": 369.99,  # ファ♯
     "G4": 392.00,  # ソ
     "A4": 440.00,  # ラ
     "B4♭": 466.16,  # シ♭
@@ -54,7 +54,7 @@ frequencies_dict = {
     "E5♭": 622.25,  # ミ♭(レ♯)
     "E5": 659.25,  # ミ
     "F5": 698.46,  # ファ
-    "F5♯": 739.99,  # ファ♯
+    "F5": 739.99,  # ファ♯
     "G5": 783.99,  # ソ
     "A5": 880.00,  # ラ
 }
@@ -65,8 +65,8 @@ frequencies_dict = {
 #Em= E minor, Bm= B minor, B7= B7, Efdim= E♭ diminished
 G = [frequencies_dict["G5"], frequencies_dict["B4"],frequencies_dict["G4"],frequencies_dict["D4"],frequencies_dict["B3"], frequencies_dict["G3"]]
 C = [frequencies_dict["E5"],frequencies_dict["C5"], frequencies_dict["G4"],frequencies_dict["E4"],frequencies_dict["C4"], frequencies_dict["BR"]]
-D = [frequencies_dict["F5♯"], frequencies_dict["D5"], frequencies_dict["A4"],frequencies_dict["D4"],frequencies_dict["BR"],frequencies_dict["BR"]]
-Efdim = [frequencies_dict["A5"],frequencies_dict["E5♭"],frequencies_dict["C5"],frequencies_dict["F4♯"],frequencies_dict["BR"],frequencies_dict["BR"]]
+D = [frequencies_dict["F5#"], frequencies_dict["D5"], frequencies_dict["A4"],frequencies_dict["D4"],frequencies_dict["BR"],frequencies_dict["BR"]]
+Efdim = [frequencies_dict["A5"],frequencies_dict["E5♭"],frequencies_dict["C5"],frequencies_dict["F4#"],frequencies_dict["BR"],frequencies_dict["BR"]]
 Em = [frequencies_dict["BR"], frequencies_dict["BR"], frequencies_dict["BR"],frequencies_dict["E4"],frequencies_dict["B3"],frequencies_dict["BR"]]
 Bm = [frequencies_dict["F5#"], frequencies_dict["D5"], frequencies_dict["B4"],frequencies_dict["F4#"],frequencies_dict["B3"],frequencies_dict["BR"]]
 BonEf = [frequencies_dict["BR"], frequencies_dict["E5♭"], frequencies_dict["B4"],frequencies_dict["F4#"],frequencies_dict["E4♭"],frequencies_dict["BR"]]
