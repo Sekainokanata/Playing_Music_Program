@@ -93,7 +93,7 @@ Tempo1 =  [1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/8,1/16,
 ###############
 
 ###GUITAR CODE###
-Gakufu2 =[G,G,C,C,D,D,Efdim,Efdim,Em,Em,Bm,Bm,C,C,D,D,G,G,C,C,D,D,BonEf,BonEf,Em,Em,Bm,Bm,C,C,Dsus4,D,D]
+Gakufu2 =[G,G,C,C,D,D,Efdim,Efdim,Em,Em,Bm,Bm,C,C,D,D,G,G,C,C,D,D,BonEf,BonEf,Em,Em,Bm,Bm,C,C,Dsus4,Dsus4,G]
 
 Tempo2 = [1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4]
 #################
