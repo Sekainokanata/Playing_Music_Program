@@ -111,7 +111,7 @@ for i in range(len(Gakufu2)):
 for i in range(len(Gakufu2)):
     duration_guiter.append(int(bar_line_second * Tempo2[i] * sample_rate))
 
-def play_guitar_tone(frequencies_guiter, duration_guiter):
+def generate_guitar_wave(frequencies_guiter, duration_guiter):
     wave = np.array([])
     for f, d in zip(frequencies_guiter, duration_guiter):
         t = np.linspace(0, d / sample_rate, int(d), endpoint=False)
@@ -124,12 +124,37 @@ def play_guitar_tone(frequencies_guiter, duration_guiter):
         tone *= envelope
         wave = np.concatenate((wave, tone))
     wave = wave / np.max(np.abs(wave))
-    sd.play(wave, samplerate=sample_rate)
-    sd.wait()
+    return wave
 
-# ギターの音を別スレッドで再生
-guitar_thread = threading.Thread(target=play_guitar_tone, args=(frequencies_guiter, duration_guiter))
-guitar_thread.start()
+# ギターの信号を生成
+
+guitar_signal = generate_guitar_wave(frequencies_guiter, duration_guiter)
+
+def guitar_audio_callback(outdata, frames, time, status):
+    global played_frames
+
+    if status:
+        print(status, flush=True)
+
+    # 再生するフレーム数を決定
+    frames_to_play = min(frames, len(guitar_signal) - played_frames)
+    #####
+    outdata[:frames_to_play] = guitar_signal[played_frames:played_frames + frames_to_play].reshape(-1, 1)##Errorが発生している箇所
+    #####
+    # バッファの残り部分をゼロ埋め
+    if frames_to_play < frames:
+        outdata[frames_to_play:] = 0
+
+    # 再生済みフレームを更新
+    played_frames += frames_to_play
+
+def play_guitar_wave():
+    global played_frames
+    played_frames = 0
+
+    with sd.OutputStream(channels=1, callback=guitar_audio_callback, samplerate=sample_rate):
+        total_duration = len(guitar_signal) / sample_rate
+        sd.sleep(int(total_duration * 1000))  # 全体の再生が終わるまで待つ
 
 def generate_wave(frequency, frames, phase, sample_rate):
     # 時間軸の生成
@@ -190,9 +215,18 @@ def play_square_wave():
     played_frames = 0
 
     with sd.OutputStream(channels=1, callback=audio_callback, samplerate=sample_rate):
-        print("音声再生中...")
         total_duration = len(full_signal) / sample_rate
         sd.sleep(int(total_duration * 1000))  # 全体の再生が終わるまで待つ
-    print("再生終了！")
 
-play_square_wave()
+# ギターとsquare_waveの音を同時に再生
+def play_both_waves():
+    guitar_thread = threading.Thread(target=play_guitar_wave)
+    square_wave_thread = threading.Thread(target=play_square_wave)
+    
+    guitar_thread.start()
+    square_wave_thread.start()
+    
+    guitar_thread.join()
+    square_wave_thread.join()
+
+play_both_waves()
