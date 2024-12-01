@@ -67,7 +67,7 @@ G = [frequencies_dict["G5"], frequencies_dict["B4"],frequencies_dict["G4"],frequ
 C = [frequencies_dict["E5"],frequencies_dict["C5"], frequencies_dict["G4"],frequencies_dict["E4"],frequencies_dict["C4"], frequencies_dict["BR"]]
 D = [frequencies_dict["F5#"], frequencies_dict["D5"], frequencies_dict["A4"],frequencies_dict["D4"],frequencies_dict["BR"],frequencies_dict["BR"]]
 Efdim = [frequencies_dict["A5"],frequencies_dict["E5♭"],frequencies_dict["C5"],frequencies_dict["F4#"],frequencies_dict["BR"],frequencies_dict["BR"]]
-Em = [frequencies_dict["BR"], frequencies_dict["BR"], frequencies_dict["BR"],frequencies_dict["E4"],frequencies_dict["B3"],frequencies_dict["BR"]]
+Em = [frequencies_dict["E5"], frequencies_dict["B4"], frequencies_dict["G4"],frequencies_dict["E4"],frequencies_dict["B3"],frequencies_dict["E3"]]
 Bm = [frequencies_dict["F5#"], frequencies_dict["D5"], frequencies_dict["B4"],frequencies_dict["F4#"],frequencies_dict["B3"],frequencies_dict["BR"]]
 BonEf = [frequencies_dict["BR"], frequencies_dict["E5♭"], frequencies_dict["B4"],frequencies_dict["F4#"],frequencies_dict["E4♭"],frequencies_dict["BR"]]
 Dsus4 = [frequencies_dict["G5"], frequencies_dict["D5"], frequencies_dict["A4"],frequencies_dict["D4"],frequencies_dict["BR"],frequencies_dict["BR"]]
@@ -93,9 +93,9 @@ Tempo1 =  [1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/8,1/16,
 ###############
 
 ###GUITAR CODE###
-Gakufu2 =[G,G,C,C,D,D,Efdim,Efdim,Em,Em,Bm,Bm,C,C,D,D,G,G,C,C,D,D,BonEf,BonEf,Em,Em,Bm,Bm,C,C,Dsus4,Dsus4,D]
+Gakufu2 =[G,G,C,C,D,D,Efdim,Efdim,Em,Em,Bm,Bm,C,C,D,D,G,G,C,C,D,D,BonEf,BonEf,Em,Em,Bm,Bm,C,C,Dsus4,D,D]
 
-Tempo2 = [1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,]
+Tempo2 = [1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4]
 #################
 
 
