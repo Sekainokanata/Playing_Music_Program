@@ -128,7 +128,7 @@ Tempo2 = [1/4,1/8,1/16,1/16,
           1/16,1/16,1/8,1/8,1/16,1/16,
           1/4,1/8,1/16,1/16,
           1/16,1/16,1/8,1/8,1/16,1/16,
-          1/4,1/8,1/16,1/16,1/16,1/16,1/8,1/8,1/16,1/16,]
+          1/4,1/8,1/16,1/16,1/16,1/16,1/8,1/8,1/16,1,]
 #################
 
 
@@ -162,15 +162,51 @@ def generate_guitar_wave(frequencies_guiter, duration_guiter):
             #print("Ckeck")
         t = np.linspace(0, d / sample_rate, int(d), endpoint=False)
         tone = 0
+
+        ###一例###
+        #wave = Volume * np.sign(np.sin(2 * np.pi * frequency * t)) # 方形波
+        #wave = Volume * np.abs(2 * (t * frequency - np.floor(t * frequency + 0.5))) - 1# 三角波
+        #wave = Volume * np.sin(2 * np.pi * frequency * t)# 正弦波
+        #wave = Volume * (2 * (t * frequency - np.floor(t * frequency + 0.5)))# ノコギリ波
+
+
+        #https://nose-akira.hatenablog.com/entry/2018/10/14/162306の資料を基に数値を計算している
         for f_tanon in f:
-            tone += 0.8 * np.sin(2 * np.pi * f_tanon * t)
-            tone += 0.4 * np.sin(2 * np.pi * f_tanon * 2 * t)
-            tone += 0.2 * np.sin(2 * np.pi * f_tanon * 3 * t)
-            tone += 0.1 * np.sin(2 * np.pi * f_tanon * 4 * t)
-        envelope = np.exp(-3 * t)
-        tone *= envelope
+            tone += 1.00 * np.sin(2 * np.pi * f_tanon * t)
+            tone += (78/69) * np.sin(2 * np.pi * f_tanon * 2 * t)
+            tone += (64/69) * np.sin(2 * np.pi * f_tanon * 3 * t)
+            tone += (43/69) * np.sin(2 * np.pi * f_tanon * 4 * t)
+            tone += (57/69) * np.sin(2 * np.pi * f_tanon * 5 * t)
+            tone += (58/69) * np.sin(2 * np.pi * f_tanon * 6 * t)
+            tone += (52/69) * np.sin(2 * np.pi * f_tanon * 7 * t)
+            tone += (37/69) * np.sin(2 * np.pi * f_tanon * 8 * t)
+            tone += (46/69) * np.sin(2 * np.pi * f_tanon * 9 * t)
+            tone += (55/69) * np.sin(2 * np.pi * f_tanon * 10 * t)
+            tone += (51/69) * np.sin(2 * np.pi * f_tanon * 11 * t)
+        #envelope = np.exp(-3 * t)
+        # ADSRエンベロープ
+        attack = 0.001#弾いてから音が出るまでの時間
+        decay = 0.83#サスティーン・レベルに達するまでの時間
+        sustain_level = 0.0#弾いてるあいだの音量
+        release = 0.001#音が消えるまでの時間
+        attack_samples = int(attack * sample_rate)
+        decay_samples = int(decay * sample_rate)
+        release_samples = int(release * sample_rate)
+        sustain_samples = max(0, d - attack_samples - decay_samples - release_samples)
+        envelope = np.concatenate([
+            np.linspace(0, 1, attack_samples),  # Attack
+            np.linspace(1, sustain_level, decay_samples),  # Decay
+            np.full(sustain_samples, sustain_level),  # Sustain
+            np.linspace(sustain_level, 0, release_samples)  # Release
+        ])
+        envelope = np.pad(envelope, (0, max(0, d - len(envelope))), 'constant')
+        tone *= envelope[:len(tone)]
+        tone *= 0.2
         if cnt_for_stroke % 2 == 0:
             tone *= 0.5
+        # ノイズの追加
+        #noise = np.random.normal(0, 0.005, len(tone))
+        #tone += noise
         wave = np.concatenate((wave, tone))
     wave = wave / np.max(np.abs(wave))
     return wave
