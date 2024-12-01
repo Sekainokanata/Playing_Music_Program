@@ -10,6 +10,7 @@ sample_rate = 88000  # サンプルレート
 phase = 0
 current_sound_index = 0
 played_frames = 0
+played_frames_guiter = 0
 durations = []#MAIN CODE
 frequencies = []#MAIN CODE
 duration_guiter = []#GUITAR CODE
@@ -131,28 +132,28 @@ def generate_guitar_wave(frequencies_guiter, duration_guiter):
 guitar_signal = generate_guitar_wave(frequencies_guiter, duration_guiter)
 
 def guitar_audio_callback(outdata, frames, time, status):
-    global played_frames
+    global played_frames_guiter
 
     if status:
         print(status, flush=True)
 
     # 再生するフレーム数を決定
-    frames_to_play = min(frames, len(guitar_signal) - played_frames)
+    frames_to_play_guiter = min(frames, len(guitar_signal) - played_frames_guiter)
     #####
-    outdata[:frames_to_play] = guitar_signal[played_frames:played_frames + frames_to_play].reshape(-1, 1)##Errorが発生している箇所
+    outdata[:frames_to_play_guiter] = guitar_signal[played_frames_guiter:played_frames_guiter + frames_to_play_guiter].reshape(-1, 1)##Errorが発生している箇所
     #####
     # バッファの残り部分をゼロ埋め
-    if frames_to_play < frames:
-        outdata[frames_to_play:] = 0
+    if frames_to_play_guiter < frames:
+        outdata[frames_to_play_guiter:] = 0
 
     # 再生済みフレームを更新
-    played_frames += frames_to_play
+    played_frames_guiter += frames_to_play_guiter
 
 def play_guitar_wave():
-    global played_frames
-    played_frames = 0
+    global played_frames_guiter
+    played_frames_guiter = 0
 
-    with sd.OutputStream(channels=1, callback=guitar_audio_callback, samplerate=sample_rate):
+    with sd.OutputStream(channels=2, callback=guitar_audio_callback, samplerate=sample_rate):
         total_duration = len(guitar_signal) / sample_rate
         sd.sleep(int(total_duration * 1000))  # 全体の再生が終わるまで待つ
 
@@ -226,7 +227,7 @@ def play_both_waves():
     guitar_thread.start()
     square_wave_thread.start()
     
-    guitar_thread.join()
-    square_wave_thread.join()
+    #guitar_thread.join()
+    #square_wave_thread.join()
 
 play_both_waves()
