@@ -71,31 +71,64 @@ Em = [frequencies_dict["E5"], frequencies_dict["B4"], frequencies_dict["G4"],fre
 Bm = [frequencies_dict["F5#"], frequencies_dict["D5"], frequencies_dict["B4"],frequencies_dict["F4#"],frequencies_dict["B3"],frequencies_dict["BR"]]
 BonEf = [frequencies_dict["BR"], frequencies_dict["E5♭"], frequencies_dict["B4"],frequencies_dict["F4#"],frequencies_dict["E4♭"],frequencies_dict["BR"]]
 Dsus4 = [frequencies_dict["G5"], frequencies_dict["D5"], frequencies_dict["A4"],frequencies_dict["D4"],frequencies_dict["BR"],frequencies_dict["BR"]]
+M = []
 
 ###MAIN CODE###
-Gakufu1 = ["B3♭","B3♭","B3♭","B3♭","B3♭","F3","F3","B3♭","B3♭","F3","F3","B3♭","C4","BR","B3♭",
+Gakufu1 = ["B3♭","B3♭","B3♭","B3♭","F3","F3","B3♭","B3♭","F3","F3","B3♭","C4","BR","B3♭",
           "C4","C4","C4","C4","C4","B3♭","B3♭","C4","D4","E4♭","D4","C4","C4","B3♭",
           "B3♭","B3♭","B3♭","B3♭","B3♭","G4","G4","F4","E4♭","D4","E4♭","D4","BR","F3",
           "C4","C4","C4","C4","C4","D4","D4","E4♭","D4","C4","D4","C4",
-          "B3♭","B3♭","B3♭","B3♭","B3♭","F3","F3","B3♭","B3♭","F3","F3","B3♭","C4","BR","B3♭",
+          "B3♭","B3♭","B3♭","B3♭","F3","F3","B3♭","B3♭","F3","F3","B3♭","C4","BR","B3♭",
           "C4","C4","C4","C4","C4","B3♭","C4","D4","E4♭","D4","C4","B3♭",
           "C4","B3♭","B3♭","A4","B4♭","BR","B3♭","B3♭","C4",
           "D4","C4","C4","B3♭","E4♭","D4","C4","B3♭","B3♭",]
 
-Tempo1 =  [1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/8,1/16,1/16,
+Tempo1 =  [1/16,1/16,1/8,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/8,1/16,1/16,
           1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/8,1/8,(1/16)+(1/32),1/32,1/16,1/16,
           1/16,1/16,1/16,1/16,1/16,1/8,1/16,1/16,1/16,1/16,1/16,1/8,1/16,1/16,
           1/16,1/16,1/16,1/16,1/8,1/16,1/16,1/16,1/16,1/16,1/16,1/4,
-          1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/8,1/16,1/16,
+          1/16,1/16,1/8,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/8,1/16,1/16,
           1/16,1/16,1/16,1/16,1/16,1/8,1/16,1/8,1/8,1/8,1/16,1/16,
           1/16,1/8,1/16,(1/8)+(1/16),(1/16)+(1/4),1/16,1/16,1/16,1/16,
           1/8,1/16,(1/16)+(1/8),1/16,(1/16)+(1/8),1/16,(1/16)+(1/16),1/16,(1/16)+(1/2),]
 ###############
 
 ###GUITAR CODE###
-Gakufu2 =[G,G,C,C,D,D,Efdim,Efdim,Em,Em,Bm,Bm,C,C,D,D,G,G,C,C,D,D,BonEf,BonEf,Em,Em,Bm,Bm,C,C,Dsus4,Dsus4,G]
+Gakufu2 =[G,G,G,G,
+          C,C,C,C,C,C,
+          D,D,D,D,
+          Efdim,Efdim,Efdim,Efdim,Efdim,Efdim,
+          Em,Em,Em,Em,
+          Bm,Bm,Bm,Bm,Bm,Bm,
+          C,C,C,C,
+          D,D,D,D,D,D,
+          G,G,G,G,
+          C,C,C,C,C,C,
+          D,D,D,D,
+          BonEf,BonEf,BonEf,BonEf,BonEf,BonEf,
+          Em,Em,Em,Em,
+          Bm,Bm,Bm,Bm,Bm,Bm,
+          C,C,C,C,
+          Dsus4,Dsus4,Dsus4,Dsus4,Dsus4,Dsus4,
+          G,G,G,G,G,G,G,G,G,G]
 
-Tempo2 = [1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4]
+Tempo2 = [1/4,1/8,1/16,1/16,
+          1/16,1/16,1/8,1/8,1/16,1/16,
+          1/4,1/8,1/16,1/16,
+          1/16,1/16,1/8,1/8,1/16,1/16,
+          1/4,1/8,1/16,1/16,
+          1/16,1/16,1/8,1/8,1/16,1/16,
+          1/4,1/8,1/16,1/16,
+          1/16,1/16,1/8,1/8,1/16,1/16,
+          1/4,1/8,1/16,1/16,
+          1/16,1/16,1/8,1/8,1/16,1/16,
+          1/4,1/8,1/16,1/16,
+          1/16,1/16,1/8,1/8,1/16,1/16,
+          1/4,1/8,1/16,1/16,
+          1/16,1/16,1/8,1/8,1/16,1/16,
+          1/4,1/8,1/16,1/16,
+          1/16,1/16,1/8,1/8,1/16,1/16,
+          1/4,1/8,1/16,1/16,1/16,1/16,1/8,1/8,1/16,1/16,]
 #################
 
 
@@ -113,14 +146,20 @@ for i in range(len(Gakufu1)):
 ################
 
 ###GUITAR CODE###
-for i in range(len(Gakufu2)):
+for i in range(len(Gakufu2)):#音階
     frequencies_guiter.append(Gakufu2[i])
-for i in range(len(Gakufu2)):
+for i in range(len(Gakufu2)):#音符の長さ
     duration_guiter.append(int(bar_line_second * Tempo2[i] * sample_rate))
 
+cnt_for_stroke = 0
+
 def generate_guitar_wave(frequencies_guiter, duration_guiter):
+    global cnt_for_stroke
     wave = np.array([])
     for f, d in zip(frequencies_guiter, duration_guiter):
+        if d == int((1/16)*sample_rate*bar_line_second):
+            cnt_for_stroke += 1
+            #print("Ckeck")
         t = np.linspace(0, d / sample_rate, int(d), endpoint=False)
         tone = 0
         for f_tanon in f:
@@ -130,6 +169,8 @@ def generate_guitar_wave(frequencies_guiter, duration_guiter):
             tone += 0.1 * np.sin(2 * np.pi * f_tanon * 4 * t)
         envelope = np.exp(-3 * t)
         tone *= envelope
+        if cnt_for_stroke % 2 == 0:
+            tone *= 0.5
         wave = np.concatenate((wave, tone))
     wave = wave / np.max(np.abs(wave))
     return wave
