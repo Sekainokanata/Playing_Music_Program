@@ -44,27 +44,33 @@ frequencies_dict = {
     "E4♭": 311.13,  # ミ♭
     "E4": 329.63,  # ミ
     "F4": 349.23,  # ファ
+    "F4♯": 369.99,  # ファ♯
     "G4": 392.00,  # ソ
     "A4": 440.00,  # ラ
     "B4♭": 466.16,  # シ♭
     "B4": 493.88,  # シ
     "C5": 523.25,  # ド
     "D5": 587.33,  # レ
-    "E5♭": 622.25,  # ミ♭
+    "E5♭": 622.25,  # ミ♭(レ♯)
     "E5": 659.25,  # ミ
     "F5": 698.46,  # ファ
+    "F5♯": 739.99,  # ファ♯
     "G5": 783.99,  # ソ
+    "A5": 880.00,  # ラ
 }
 
 # コードの周波数リスト
-G = [frequencies_dict["G2"], frequencies_dict["B2"], frequencies_dict["D3"]]
-C = [frequencies_dict["C3"], frequencies_dict["E3"], frequencies_dict["G3"]]
-D = [frequencies_dict["D3"], frequencies_dict["F3♯"], frequencies_dict["A3"]]
-B7 = [frequencies_dict["B2"], frequencies_dict["D3"], frequencies_dict["F3♯"], frequencies_dict["A3"]]
-Em = [frequencies_dict["E3"], frequencies_dict["G3"], frequencies_dict["B3"]]
-Bm = [frequencies_dict["B2"], frequencies_dict["D3"], frequencies_dict["F3♯"]]
-
-
+##左から第一弦→第二弦→第三弦→第四弦→第五弦→第六弦(BRは弦を引かない場合)
+##開放弦(その弦の一番低い音)は順に、E5→B4→G4→D4→A3→E3
+#Em= E minor, Bm= B minor, B7= B7, Efdim= E♭ diminished
+G = [frequencies_dict["G5"], frequencies_dict["B4"],frequencies_dict["G4"],frequencies_dict["D4"],frequencies_dict["B3"], frequencies_dict["G3"]]
+C = [frequencies_dict["E5"],frequencies_dict["C5"], frequencies_dict["G4"],frequencies_dict["E4"],frequencies_dict["C4"], frequencies_dict["BR"]]
+D = [frequencies_dict["F5♯"], frequencies_dict["D5"], frequencies_dict["A4"],frequencies_dict["D4"],frequencies_dict["BR"],frequencies_dict["BR"]]
+Efdim = [frequencies_dict["A5"],frequencies_dict["E5♭"],frequencies_dict["C5"],frequencies_dict["F4♯"],frequencies_dict["BR"],frequencies_dict["BR"]]
+Em = [frequencies_dict["BR"], frequencies_dict["BR"], frequencies_dict["BR"],frequencies_dict["E4"],frequencies_dict["B3"],frequencies_dict["BR"]]
+Bm = [frequencies_dict["F5#"], frequencies_dict["D5"], frequencies_dict["B4"],frequencies_dict["F4#"],frequencies_dict["B3"],frequencies_dict["BR"]]
+BonEf = [frequencies_dict["BR"], frequencies_dict["E5♭"], frequencies_dict["B4"],frequencies_dict["F4#"],frequencies_dict["E4♭"],frequencies_dict["BR"]]
+Dsus4 = [frequencies_dict["G5"], frequencies_dict["D5"], frequencies_dict["A4"],frequencies_dict["D4"],frequencies_dict["BR"],frequencies_dict["BR"]]
 
 ###MAIN CODE###
 Gakufu1 = ["B3♭","B3♭","B3♭","B3♭","B3♭","F3","F3","B3♭","B3♭","F3","F3","B3♭","C4","BR","B3♭",
@@ -87,7 +93,7 @@ Tempo1 =  [1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/8,1/16,
 ###############
 
 ###GUITAR CODE###
-Gakufu2 =[G,G,C,C,D,D,B7,B7,Em,Em,Bm,Bm,C,C,D,D,G,G,C,C,D,D,B7,B7,Em,Em,Bm,Bm,C,C,D,D]
+Gakufu2 =[G,G,C,C,D,D,Efdim,Efdim,Em,Em,Bm,Bm,C,C,D,D,G,G,C,C,D,D,BonEf,BonEf,Em,Em,Bm,Bm,C,C,Dsus4,Dsus4,D]
 
 Tempo2 = [1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,1/4,]
 #################
@@ -121,6 +127,7 @@ def generate_guitar_wave(frequencies_guiter, duration_guiter):
             tone += 0.8 * np.sin(2 * np.pi * f_tanon * t)
             tone += 0.4 * np.sin(2 * np.pi * f_tanon * 2 * t)
             tone += 0.2 * np.sin(2 * np.pi * f_tanon * 3 * t)
+            tone += 0.1 * np.sin(2 * np.pi * f_tanon * 4 * t)
         envelope = np.exp(-3 * t)
         tone *= envelope
         wave = np.concatenate((wave, tone))
