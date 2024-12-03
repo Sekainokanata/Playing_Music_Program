@@ -32,6 +32,7 @@ frequencies_dict = {
     "B2": 123.47,  # シ
     "C3": 130.81,  # ド
     "D3": 146.83,  # レ
+    "E3♭": 155.56,  # ミ♭(レ♯)
     "E3": 164.81,  # ミ
     "F3": 174.61,  # ファ
     "F3#": 185.00,  # ファ♯
@@ -61,16 +62,16 @@ frequencies_dict = {
 
 # コードの周波数リスト
 ##左から第一弦→第二弦→第三弦→第四弦→第五弦→第六弦(BRは弦を引かない場合)
-##開放弦(その弦の一番低い音)は順に、E5→B4→G4→D4→A3→E3
+##開放弦(その弦の一番低い音)は順に、E4→B3→G3→D3→A2→E2
 #Em= E minor, Bm= B minor, B7= B7, Efdim= E♭ diminished
-G = [frequencies_dict["G5"], frequencies_dict["B4"],frequencies_dict["G4"],frequencies_dict["D4"],frequencies_dict["B3"], frequencies_dict["G3"]]
-C = [frequencies_dict["E5"],frequencies_dict["C5"], frequencies_dict["G4"],frequencies_dict["E4"],frequencies_dict["C4"], frequencies_dict["BR"]]
-D = [frequencies_dict["F5#"], frequencies_dict["D5"], frequencies_dict["A4"],frequencies_dict["D4"],frequencies_dict["BR"],frequencies_dict["BR"]]
-Efdim = [frequencies_dict["A5"],frequencies_dict["E5♭"],frequencies_dict["C5"],frequencies_dict["F4#"],frequencies_dict["BR"],frequencies_dict["BR"]]
-Em = [frequencies_dict["E5"], frequencies_dict["B4"], frequencies_dict["G4"],frequencies_dict["E4"],frequencies_dict["B3"],frequencies_dict["E3"]]
-Bm = [frequencies_dict["F5#"], frequencies_dict["D5"], frequencies_dict["B4"],frequencies_dict["F4#"],frequencies_dict["B3"],frequencies_dict["BR"]]
-BonEf = [frequencies_dict["BR"], frequencies_dict["E5♭"], frequencies_dict["B4"],frequencies_dict["F4#"],frequencies_dict["E4♭"],frequencies_dict["BR"]]
-Dsus4 = [frequencies_dict["G5"], frequencies_dict["D5"], frequencies_dict["A4"],frequencies_dict["D4"],frequencies_dict["BR"],frequencies_dict["BR"]]
+G = [frequencies_dict["G4"], frequencies_dict["B3"],frequencies_dict["G3"],frequencies_dict["D3"],frequencies_dict["B2"], frequencies_dict["G2"]]
+C = [frequencies_dict["E4"],frequencies_dict["C4"], frequencies_dict["G3"],frequencies_dict["E3"],frequencies_dict["C3"], frequencies_dict["BR"]]
+D = [frequencies_dict["F4#"], frequencies_dict["D4"], frequencies_dict["A3"],frequencies_dict["D3"],frequencies_dict["BR"],frequencies_dict["BR"]]
+Efdim = [frequencies_dict["A4"],frequencies_dict["E4♭"],frequencies_dict["C4"],frequencies_dict["F3#"],frequencies_dict["BR"],frequencies_dict["BR"]]
+Em = [frequencies_dict["E4"], frequencies_dict["B3"], frequencies_dict["G3"],frequencies_dict["E3"],frequencies_dict["B2"],frequencies_dict["E2"]]
+Bm = [frequencies_dict["F4#"], frequencies_dict["D4"], frequencies_dict["B3"],frequencies_dict["F3#"],frequencies_dict["B2"],frequencies_dict["BR"]]
+BonEf = [frequencies_dict["BR"], frequencies_dict["E4♭"], frequencies_dict["B3"],frequencies_dict["F3#"],frequencies_dict["E3♭"],frequencies_dict["BR"]]
+Dsus4 = [frequencies_dict["G4"], frequencies_dict["D4"], frequencies_dict["A3"],frequencies_dict["D3"],frequencies_dict["BR"],frequencies_dict["BR"]]
 M = []
 
 ###MAIN CODE###
@@ -170,7 +171,7 @@ def generate_guitar_wave(frequencies_guiter, duration_guiter):
         #wave = Volume * (2 * (t * frequency - np.floor(t * frequency + 0.5)))# ノコギリ波
 
 
-        #https://nose-akira.hatenablog.com/entry/2018/10/14/162306の資料を基に数値を計算している
+        #(https://nose-akira.hatenablog.com/entry/2018/10/14/162306)の資料を基に数値を計算している
         for f_tanon in f:
             tone += 1.00 * np.sin(2 * np.pi * f_tanon * t)
             tone += (78/69) * np.sin(2 * np.pi * f_tanon * 2 * t)
