@@ -184,6 +184,18 @@ def generate_guitar_wave(frequencies_guiter, duration_guiter):
             tone += (46/69) * np.sin(2 * np.pi * f_tanon * 9 * t)
             tone += (55/69) * np.sin(2 * np.pi * f_tanon * 10 * t)
             tone += (51/69) * np.sin(2 * np.pi * f_tanon * 11 * t)
+            tone += (30/69) * np.sin(2 * np.pi * f_tanon * 12 * t)
+            tone += (31/69) * np.sin(2 * np.pi * f_tanon * 13 * t)
+            tone += (34/69) * np.sin(2 * np.pi * f_tanon * 14 * t)
+            tone += (36/69) * np.sin(2 * np.pi * f_tanon * 15 * t)
+            tone += (22/69) * np.sin(2 * np.pi * f_tanon * 16 * t)
+            tone += (26/69) * np.sin(2 * np.pi * f_tanon * 17 * t)
+            tone += (40/69) * np.sin(2 * np.pi * f_tanon * 18 * t)
+            tone += (42/69) * np.sin(2 * np.pi * f_tanon * 19 * t)
+            tone += (37/69) * np.sin(2 * np.pi * f_tanon * 20 * t)
+            tone += (28/69) * np.sin(2 * np.pi * f_tanon * 21 * t)
+            tone += (31/69) * np.sin(2 * np.pi * f_tanon * 22 * t)
+            tone += (40/69) * np.sin(2 * np.pi * f_tanon * 23 * t)
         #envelope = np.exp(-3 * t)
         # ADSRエンベロープ
         attack = 0.001#弾いてから音が出るまでの時間
