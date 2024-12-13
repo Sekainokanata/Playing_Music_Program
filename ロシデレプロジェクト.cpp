@@ -5,6 +5,7 @@
 #include <time.h>
 #include <string.h>
 #include <Windows.h>
+#include <curl>
 
 
 
