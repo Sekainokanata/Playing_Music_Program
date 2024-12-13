@@ -193,3 +193,5 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	DxLib_End();
 	return 0;
 }
+
+//GITTEST
