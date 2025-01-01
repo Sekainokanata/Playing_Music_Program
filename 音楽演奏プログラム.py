@@ -80,10 +80,10 @@ Dsus4 = [frequencies_dict["G4"], frequencies_dict["D4"], frequencies_dict["A3"],
 
 #Capo 3
 G = [frequencies_dict["B4♭"], frequencies_dict["D4"],frequencies_dict["B3♭"],frequencies_dict["F3"],frequencies_dict["D3"], frequencies_dict["B2♭"]]
-C = [frequencies_dict["G4"],frequencies_dict["E4♭"], frequencies_dict["b3♭"],frequencies_dict["G3"],frequencies_dict["E3♭"], frequencies_dict["BR"]]
+C = [frequencies_dict["G4"],frequencies_dict["E4♭"], frequencies_dict["B3♭"],frequencies_dict["G3"],frequencies_dict["E3♭"], frequencies_dict["BR"]]
 D = [frequencies_dict["A4"], frequencies_dict["F4"], frequencies_dict["C4"],frequencies_dict["F3"],frequencies_dict["BR"],frequencies_dict["BR"]]
 Efdim = [frequencies_dict["A4"],frequencies_dict["E4♭"],frequencies_dict["C4"],frequencies_dict["F3#"],frequencies_dict["BR"],frequencies_dict["BR"]]
-Em = [frequencies_dict["G4"], frequencies_dict["D4"], frequencies_dict["b3♭"],frequencies_dict["G3"],frequencies_dict["D3"],frequencies_dict["G2"]]
+Em = [frequencies_dict["G4"], frequencies_dict["D4"], frequencies_dict["B3♭"],frequencies_dict["G3"],frequencies_dict["D3"],frequencies_dict["G2"]]
 Bm = [frequencies_dict["A4"], frequencies_dict["F4"], frequencies_dict["D4"],frequencies_dict["A3"],frequencies_dict["D3"],frequencies_dict["BR"]]
 
 
@@ -337,10 +337,10 @@ def play_square_wave():
 # ギターとsquare_waveの音を同時に再生
 def play_both_waves():
     guitar_thread = threading.Thread(target=play_guitar_wave)
-    #square_wave_thread = threading.Thread(target=play_square_wave)
+    square_wave_thread = threading.Thread(target=play_square_wave)
     
     guitar_thread.start()
-    #square_wave_thread.start()
+    square_wave_thread.start()
     
     #guitar_thread.join()
     #square_wave_thread.join()
