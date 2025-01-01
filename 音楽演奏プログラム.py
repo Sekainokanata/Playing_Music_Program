@@ -64,6 +64,11 @@ frequencies_dict = {
 ##左から第一弦→第二弦→第三弦→第四弦→第五弦→第六弦(BRは弦を引かない場合)
 ##開放弦(その弦の一番低い音)は順に、E4→B3→G3→D3→A2→E2
 #Em= E minor, Bm= B minor, B7= B7, Efdim= E♭ diminished
+#Capo 3なため、３つずらす必要がある
+
+
+#Capo 0
+
 G = [frequencies_dict["G4"], frequencies_dict["B3"],frequencies_dict["G3"],frequencies_dict["D3"],frequencies_dict["B2"], frequencies_dict["G2"]]
 C = [frequencies_dict["E4"],frequencies_dict["C4"], frequencies_dict["G3"],frequencies_dict["E3"],frequencies_dict["C3"], frequencies_dict["BR"]]
 D = [frequencies_dict["F4#"], frequencies_dict["D4"], frequencies_dict["A3"],frequencies_dict["D3"],frequencies_dict["BR"],frequencies_dict["BR"]]
@@ -72,7 +77,15 @@ Em = [frequencies_dict["E4"], frequencies_dict["B3"], frequencies_dict["G3"],fre
 Bm = [frequencies_dict["F4#"], frequencies_dict["D4"], frequencies_dict["B3"],frequencies_dict["F3#"],frequencies_dict["B2"],frequencies_dict["BR"]]
 BonEf = [frequencies_dict["BR"], frequencies_dict["E4♭"], frequencies_dict["B3"],frequencies_dict["F3#"],frequencies_dict["E3♭"],frequencies_dict["BR"]]
 Dsus4 = [frequencies_dict["G4"], frequencies_dict["D4"], frequencies_dict["A3"],frequencies_dict["D3"],frequencies_dict["BR"],frequencies_dict["BR"]]
-M = []
+
+#Capo 3
+G = [frequencies_dict["B4♭"], frequencies_dict["D4"],frequencies_dict["b3♭"],frequencies_dict["F3"],frequencies_dict["D3"], frequencies_dict["B2♭"]]
+C = [frequencies_dict["G4"],frequencies_dict["E4♭"], frequencies_dict["b3♭"],frequencies_dict["G3"],frequencies_dict["E3♭"], frequencies_dict["BR"]]
+D = [frequencies_dict["A4"], frequencies_dict["F4"], frequencies_dict["C4"],frequencies_dict["F3"],frequencies_dict["BR"],frequencies_dict["BR"]]
+Efdim = [frequencies_dict["A4"],frequencies_dict["E4♭"],frequencies_dict["C4"],frequencies_dict["F3#"],frequencies_dict["BR"],frequencies_dict["BR"]]
+Em = [frequencies_dict["G4"], frequencies_dict["D4"], frequencies_dict["b3♭"],frequencies_dict["G3"],frequencies_dict["D3"],frequencies_dict["G2"]]
+Bm = [frequencies_dict["A4"], frequencies_dict["F4"], frequencies_dict["D4"],frequencies_dict["A3"],frequencies_dict["D3"],frequencies_dict["BR"]]
+
 
 ###MAIN CODE###
 Gakufu1 = ["B3♭","B3♭","B3♭","B3♭","F3","F3","B3♭","B3♭","F3","F3","B3♭","C4","BR","B3♭",
@@ -83,6 +96,7 @@ Gakufu1 = ["B3♭","B3♭","B3♭","B3♭","F3","F3","B3♭","B3♭","F3","F3","
           "C4","C4","C4","C4","C4","B3♭","C4","D4","E4♭","D4","C4","B3♭",
           "C4","B3♭","B3♭","A4","B4♭","BR","B3♭","B3♭","C4",
           "D4","C4","C4","B3♭","E4♭","D4","C4","B3♭","B3♭",]
+
 
 Tempo1 =  [1/16,1/16,1/8,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/8,1/16,1/16,
           1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/16,1/8,1/8,(1/16)+(1/32),1/32,1/16,1/16,
@@ -106,11 +120,11 @@ Gakufu2 =[G,G,G,G,
           G,G,G,G,
           C,C,C,C,C,C,
           D,D,D,D,
-          BonEf,BonEf,BonEf,BonEf,BonEf,BonEf,
+          Efdim,Efdim,Efdim,Efdim,Efdim,Efdim,
           Em,Em,Em,Em,
           Bm,Bm,Bm,Bm,Bm,Bm,
           C,C,C,C,
-          Dsus4,Dsus4,Dsus4,Dsus4,Dsus4,Dsus4,
+          D,D,D,D,D,D,
           G,G,G,G,G,G,G,G,G,G]
 
 Tempo2 = [1/4,1/8,1/16,1/16,
@@ -157,22 +171,26 @@ cnt_for_stroke = 0
 def generate_guitar_wave(frequencies_guiter, duration_guiter):
     global cnt_for_stroke
     wave = np.array([])
+
+    L = 650 * 10**-3#650mm*10^-3=0.65m(弦の長さ)
+    x = L * (4/5)#弦の長さの4/5の位置にホールがあると仮定
+    T = 70#弦の張力をとりあえず70Nと仮定
+    d = 1.0#直径をとりあえず1.0mmと仮定ρ
+    ρ = 1150#弦の密度をとりあえず1150kg/m^3と仮定
+    μ = np.pi * (((d*10**-3)/2)**2) * ρ
+    v = np.sqrt(T/μ)#弦の速度
+    A = 1
+    B = 1
     for f, d in zip(frequencies_guiter, duration_guiter):
         if d == int((1/16)*sample_rate*bar_line_second):
             cnt_for_stroke += 1
-            #print("Ckeck")
         t = np.linspace(0, d / sample_rate, int(d), endpoint=False)
         tone = 0
 
-        ###一例###
-        #wave = Volume * np.sign(np.sin(2 * np.pi * frequency * t)) # 方形波
-        #wave = Volume * np.abs(2 * (t * frequency - np.floor(t * frequency + 0.5))) - 1# 三角波
-        #wave = Volume * np.sin(2 * np.pi * frequency * t)# 正弦波
-        #wave = Volume * (2 * (t * frequency - np.floor(t * frequency + 0.5)))# ノコギリ波
-
-
         #(https://nose-akira.hatenablog.com/entry/2018/10/14/162306)の資料を基に数値を計算している
         for f_tanon in f:
+            #for n in range(1, 24): 
+                #tone += A * np.cos((n*np.pi*x)/L)*np.cos(f_tanon*t)+B * np.cos(n*np.pi*x/L)*np.sin(f_tanon*t)
             tone += 1.00 * np.sin(2 * np.pi * f_tanon * t)
             tone += (78/69) * np.sin(2 * np.pi * f_tanon * 2 * t)
             tone += (64/69) * np.sin(2 * np.pi * f_tanon * 3 * t)
@@ -214,12 +232,12 @@ def generate_guitar_wave(frequencies_guiter, duration_guiter):
         ])
         envelope = np.pad(envelope, (0, max(0, d - len(envelope))), 'constant')
         tone *= envelope[:len(tone)]
-        tone *= 0.2
+        tone *= 0.05
         if cnt_for_stroke % 2 == 0:
             tone *= 0.5
         # ノイズの追加
-        #noise = np.random.normal(0, 0.005, len(tone))
-        #tone += noise
+        noise = np.random.normal(0, 0.005, len(tone))
+        tone += noise
         wave = np.concatenate((wave, tone))
     wave = wave / np.max(np.abs(wave))
     return wave
@@ -319,10 +337,10 @@ def play_square_wave():
 # ギターとsquare_waveの音を同時に再生
 def play_both_waves():
     guitar_thread = threading.Thread(target=play_guitar_wave)
-    square_wave_thread = threading.Thread(target=play_square_wave)
+    #square_wave_thread = threading.Thread(target=play_square_wave)
     
     guitar_thread.start()
-    square_wave_thread.start()
+    #square_wave_thread.start()
     
     #guitar_thread.join()
     #square_wave_thread.join()
