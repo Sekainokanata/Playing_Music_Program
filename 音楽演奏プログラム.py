@@ -79,7 +79,7 @@ BonEf = [frequencies_dict["BR"], frequencies_dict["E4♭"], frequencies_dict["B3
 Dsus4 = [frequencies_dict["G4"], frequencies_dict["D4"], frequencies_dict["A3"],frequencies_dict["D3"],frequencies_dict["BR"],frequencies_dict["BR"]]
 
 #Capo 3
-G = [frequencies_dict["B4♭"], frequencies_dict["D4"],frequencies_dict["b3♭"],frequencies_dict["F3"],frequencies_dict["D3"], frequencies_dict["B2♭"]]
+G = [frequencies_dict["B4♭"], frequencies_dict["D4"],frequencies_dict["B3♭"],frequencies_dict["F3"],frequencies_dict["D3"], frequencies_dict["B2♭"]]
 C = [frequencies_dict["G4"],frequencies_dict["E4♭"], frequencies_dict["b3♭"],frequencies_dict["G3"],frequencies_dict["E3♭"], frequencies_dict["BR"]]
 D = [frequencies_dict["A4"], frequencies_dict["F4"], frequencies_dict["C4"],frequencies_dict["F3"],frequencies_dict["BR"],frequencies_dict["BR"]]
 Efdim = [frequencies_dict["A4"],frequencies_dict["E4♭"],frequencies_dict["C4"],frequencies_dict["F3#"],frequencies_dict["BR"],frequencies_dict["BR"]]
