@@ -236,8 +236,8 @@ def generate_guitar_wave(frequencies_guiter, duration_guiter):
         if cnt_for_stroke % 2 == 0:
             tone *= 0.5
         # ノイズの追加
-        noise = np.random.normal(0, 0.005, len(tone))
-        tone += noise
+        #noise = np.random.normal(0, 0.005, len(tone))
+        #tone += noise
         wave = np.concatenate((wave, tone))
     wave = wave / np.max(np.abs(wave))
     return wave
@@ -276,10 +276,10 @@ def generate_wave(frequency, frames, phase, sample_rate):
     # 時間軸の生成
     t = (np.arange(frames) + phase) / sample_rate
     # 信号の生成
-    wave = Volume * np.sign(np.sin(2 * np.pi * frequency * t)) # 方形波
+    #wave = Volume * np.sign(np.sin(2 * np.pi * frequency * t)) # 方形波
     #wave = Volume * np.abs(2 * (t * frequency - np.floor(t * frequency + 0.5))) - 1# 三角波
     #wave = Volume * np.sin(2 * np.pi * frequency * t)# 正弦波
-    #wave = Volume * (2 * (t * frequency - np.floor(t * frequency + 0.5)))# ノコギリ波
+    wave = Volume * (2 * (t * frequency - np.floor(t * frequency + 0.5)))# ノコギリ波
     return wave
 
 def apply_fade(wave, fade_in_frames, fade_out_frames):
