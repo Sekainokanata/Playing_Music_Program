@@ -172,16 +172,20 @@ def generate_guitar_wave(frequencies_guiter, duration_guiter):
     global cnt_for_stroke
     wave = np.array([])
 
-    L = 650 * 10**-3#650mm*10^-3=0.65m(弦の長さ)
-    x = L * (4/5)#弦の長さの4/5の位置にホールがあると仮定
-    T = 70#弦の張力をとりあえず70Nと仮定
-    d = 1.0#直径をとりあえず1.0mmと仮定ρ
-    ρ = 1150#弦の密度をとりあえず1150kg/m^3と仮定
-    μ = np.pi * (((d*10**-3)/2)**2) * ρ
-    v = np.sqrt(T/μ)#弦の速度
-    A = 1
-    B = 1
-    for f, d in zip(frequencies_guiter, duration_guiter):
+    #L = 650 * 10**-3#650mm*10^-3=0.65m(弦の長さ)
+    #x = L * (4/5)#弦の長さの4/5の位置にホールがあると仮定
+    #T = 70#弦の張力をとりあえず70Nと仮定
+    #d = 1.0#直径をとりあえず1.0mmと仮定ρ
+    #ρ = 1150#弦の密度をとりあえず1150kg/m^3と仮定
+    #μ = np.pi * (((d*10**-3)/2)**2) * ρ
+    #v = np.sqrt(T/μ)#弦の速度
+    #A = 1
+    #B = 1
+    for i, (f, d) in enumerate(zip(frequencies_guiter, duration_guiter), start=1):
+        guitar_wave_progress = i / len(frequencies_guiter) * 100
+        print(f"\rProgress... {guitar_wave_progress:.2f}%",end = "", flush=True)
+        
+        
         if d == int((1/16)*sample_rate*bar_line_second):
             cnt_for_stroke += 1
         t = np.linspace(0, d / sample_rate, int(d), endpoint=False)
@@ -245,7 +249,10 @@ def generate_guitar_wave(frequencies_guiter, duration_guiter):
 
 # ギターの信号を生成
 
+print("generate guitar wave...")
 guitar_signal = generate_guitar_wave(frequencies_guiter, duration_guiter)
+
+
 
 def guitar_audio_callback(outdata, frames, time, status):
     global played_frames_guiter
@@ -277,9 +284,9 @@ def generate_wave(frequency, frames, phase, sample_rate):
     # 時間軸の生成
     t = (np.arange(frames) + phase) / sample_rate
     # 信号の生成
-    #wave = Volume * np.sign(np.sin(2 * np.pi * frequency * t)) # 方形波
+    wave = Volume * np.sign(np.sin(2 * np.pi * frequency * t)) # 方形波
     #wave = Volume * np.abs(2 * (t * frequency - np.floor(t * frequency + 0.5))) - 1# 三角波
-    wave = Volume * np.sin(2 * np.pi * frequency * t)# 正弦波
+    #wave = Volume * np.sin(2 * np.pi * frequency * t)# 正弦波
     #wave = Volume * (2 * (t * frequency - np.floor(t * frequency + 0.5)))# ノコギリ波
     return wave
 
@@ -295,6 +302,8 @@ signals = []
 fade_in_frames = int(sample_rate * 0.005)  # フェードインのフレーム数（0.01秒）
 fade_out_frames = int(sample_rate * 0.005)  # フェードアウトのフレーム数（0.01秒）
 
+print("\ngenerate main wave...")
+
 for i in range(len(Gakufu1)):
 
     frames = durations[i]
@@ -302,6 +311,7 @@ for i in range(len(Gakufu1)):
     
 
     signal = generate_wave(frequency, frames, 0, sample_rate)
+    print(f"\rProgress... {i / len(Gakufu1) * 100:.2f}%",end = "", flush=True)
 
     signal = apply_fade(signal, fade_in_frames, fade_out_frames)
     signals.append(signal)
@@ -346,4 +356,6 @@ def play_both_waves():
     #guitar_thread.join()
     #square_wave_thread.join()
 
+
+print("\nNow playing...")
 play_both_waves()
