@@ -5,7 +5,7 @@ import threading
 ############MAIN PARAMETER############
 BPM = 73
 bar_line_second = (60/BPM)*4  # 1小節の秒数
-Defalt_Volume = 0.1
+Defalt_Volume = 0.01
 sample_rate = 88000  # サンプルレート
 phase = 0
 current_sound_index = 0
@@ -241,10 +241,10 @@ def generate_guitar_wave(frequencies_guiter, duration_guiter):
         # ノイズの追加
         #noise = np.random.normal(0, 0.005, len(tone))
         #tone += noise
-        tone *= 0.1
+        #tone *= 0.1
         wave = np.concatenate((wave, tone))
     wave = wave / np.max(np.abs(wave))
-    wave *= 0.5
+    wave *= Volume*2
     return wave
 
 # ギターの信号を生成
