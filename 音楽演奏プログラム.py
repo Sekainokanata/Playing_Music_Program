@@ -1,11 +1,12 @@
 import numpy as np
 import sounddevice as sd
 import threading
+import matplotlib.pyplot as plt 
 
 ############MAIN PARAMETER############
 BPM = 73
 bar_line_second = (60/BPM)*4  # 1小節の秒数
-Defalt_Volume = 0.01
+Defalt_Volume = 0.05
 sample_rate = 88000  # サンプルレート
 phase = 0
 current_sound_index = 0
@@ -345,6 +346,9 @@ def play_square_wave():
         total_duration = len(full_signal) / sample_rate
         sd.sleep(int(total_duration * 1000))  # 全体の再生が終わるまで待つ
 
+
+
+
 # ギターとsquare_waveの音を同時に再生
 def play_both_waves():
     guitar_thread = threading.Thread(target=play_guitar_wave)
@@ -356,6 +360,89 @@ def play_both_waves():
     #guitar_thread.join()
     #square_wave_thread.join()
 
+#############################################################
+### パワースペクトル解析・表示プログラムの追加
+#############################################################
 
+def plot_power_spectrum(signal1, signal2, sample_rate, start_sec=2.0, N_power=16):
+    """
+    作成された音源に矩形窓とブラックマン窓をかけ、パワースペクトルを表示する関数
+    
+    :param signal1: メイン信号 (full_signal)
+    :param signal2: ギター信号 (guitar_signal)
+    :param sample_rate: サンプリングレート
+    :param start_sec: 解析を開始する秒数（デフォルトは2秒目から）
+    :param N_power: 切り出すサンプル数の2のべき乗（16なら 2^16 = 65536サンプル）
+    """
+    print("\nCalculating Power Spectrum...")
+
+    # 2つの信号の長さを揃えてミックス（合成音源を作成）
+    min_len = min(len(signal1), len(signal2))
+    mixed_signal = signal1[:min_len] + signal2[:min_len]
+
+    # FFTを高速・正確に計算するため、2のべき乗のサンプル数を切り出す
+    N = 2 ** N_power
+    start_index = int(start_sec * sample_rate)
+    
+    if start_index + N > len(mixed_signal):
+        print("指定された解析区間が信号の長さを超えています。開始秒数を調整してください。")
+        return
+
+    # 解析対象の信号波形を抽出
+    segment = mixed_signal[start_index : start_index + N]
+
+    # 窓関数の生成
+    rect_window = np.ones(N)          # 矩形窓（そのまま）
+    blackman_window = np.blackman(N)  # ブラックマン窓
+
+    # 窓関数の適用
+    segment_rect = segment * rect_window
+    segment_blackman = segment * blackman_window
+
+    # FFT（実数信号向けのrfftを使用）
+    fft_rect = np.fft.rfft(segment_rect)
+    fft_blackman = np.fft.rfft(segment_blackman)
+
+    # 周波数軸の生成
+    freqs = np.fft.rfftfreq(N, d=1.0/sample_rate)
+
+    # パワースペクトルの計算 (dB表記、対数のゼロ割りを防ぐため微小値 1e-10 を加算)
+    # ※ブラックマン窓による減衰分のエネルギー補正も考慮
+    power_rect = 20 * np.log10(np.abs(fft_rect) + 1e-10)
+    
+    # ブラックマン窓のコヒーレント利得（約0.42）の逆数をかけてスケールを揃える
+    coherent_gain_blackman = np.sum(blackman_window) / N
+    power_blackman = 20 * np.log10((np.abs(fft_blackman) / coherent_gain_blackman) + 1e-10)
+
+    # グラフの描画
+    plt.figure(figsize=(12, 6))
+    
+    # 矩形窓のプロット（青）
+    plt.plot(freqs, power_rect, label="Rectangular Window", color="blue", alpha=0.6, linewidth=1)
+    # ブラックマン窓のプロット（赤）
+    plt.plot(freqs, power_blackman, label="Blackman Window", color="red", alpha=0.8, linewidth=1.2)
+
+    plt.title("Power Spectrum Comparison (Rectangular vs Blackman Window)")
+    plt.xlabel("Frequency (Hz)")
+    plt.ylabel("Power (dB)")
+    
+    # 楽器の音階成分が集中している主要な帯域 (0 〜 5000Hz) をクローズアップ
+    plt.xlim(0, 5000)
+    # Y軸の表示範囲を調整（ノイズフロア以下を見やすくするため）
+    plt.ylim(max(np.max(power_rect)-100, 0), np.max(power_rect) + 10)
+    
+    plt.grid(True, which="both", linestyle="--", alpha=0.5)
+    plt.legend(loc="upper right")
+    plt.tight_layout()
+    
+    # グラフの表示
+    plt.show()
+
+# 再生と同時にスペクトル解析を実行
+print("\nNow playing...")
+play_both_waves()
+
+# グラフ表示関数を呼び出す（2秒目から 2^16 サンプルを解析）
+plot_power_spectrum(full_signal, guitar_signal, sample_rate, start_sec=2.0, N_power=16)
 print("\nNow playing...")
 play_both_waves()
